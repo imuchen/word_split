@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # 读取数据
     # data = pd.read_csv('my_words_20211030.csv', encoding='utf-8').astype(str)
-    data = pd.read_excel('b.xlsx', sheet_name='Sheet1')
+    data = pd.read_excel('11.10-11.10 VS 11.17-11.23.xlsx', sheet_name='11.17-11.23')
 
     # 查看数据
     # data.head()
@@ -121,4 +121,4 @@ if __name__ == '__main__':
     data.drop(columns=['classify', 'punctuation'])
     data.drop(columns=['cut', 'punctuation'])
     # 导出文件
-    data.to_excel(excel_writer='b_save_as.xlsx')
+    data.to_excel(excel_writer='save_as_11.17.xlsx')
