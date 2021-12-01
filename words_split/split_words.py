@@ -6,7 +6,7 @@
 # 导入相关库
 import collections
 import operator
-
+import xlsxwriter
 import pandas as pd
 import jieba
 import re
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # 读取数据
     # data = pd.read_csv('my_words_20211030.csv', encoding='utf-8').astype(str)
-    data = pd.read_excel('11.10-11.10 VS 11.17-11.23.xlsx', sheet_name='11.17-11.23')
+    data = pd.read_excel('11.17-11.23 VS 11.24-11.30.xlsx', sheet_name='11.24-11.30')
 
     # 查看数据
     # data.head()
@@ -90,6 +90,12 @@ if __name__ == '__main__':
     data['chinese'] = data['问题概述'].apply(lambda x: "".join(chinese_pattern.split(str(x))))
     # 过滤掉标点符号
     data['punctuation'] = data['chinese'].apply(lambda x: re.sub(punctuation_pattern, '', x))
+
+    # excel非法字符
+    # illegal_characters_re = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+    # 去除excel非法字符(否则可能无法保存计算结果)
+    # data['punctuation'] = data['punctuation'].apply(lambda x: re.sub(illegal_characters_re, '', x))
+
     # 去除停用词
     data['cut'] = data['punctuation'].apply(lambda x: [i for i in set(jieba.cut(x)) if i not in stop_list])
 
@@ -121,4 +127,4 @@ if __name__ == '__main__':
     data.drop(columns=['classify', 'punctuation'])
     data.drop(columns=['cut', 'punctuation'])
     # 导出文件
-    data.to_excel(excel_writer='save_as_11.17.xlsx')
+    data.to_excel(excel_writer='save_as_11.24.xlsx', engine='xlsxwriter')
